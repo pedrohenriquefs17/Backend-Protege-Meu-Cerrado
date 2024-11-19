@@ -1,6 +1,4 @@
-package com.br.protegemeucerrado.pmc.model;
-
-import javax.swing.text.html.HTMLDocument.BlockElement;
+package com.br.protegemeucerrado.ocorrencia.model;
 
 import lombok.Data;
 
@@ -13,5 +11,4 @@ public class Ocorrencia {
     private String categoria;
     private Boolean anonimo = false;
 
-    
 }
