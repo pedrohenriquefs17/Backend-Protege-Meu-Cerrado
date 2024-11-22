@@ -45,12 +45,6 @@ public class ModelUser implements Serializable {
     private LocalDate dataNascimento;
     @Column(name = "telefone", columnDefinition = "VARCHAR(15)")
     private String telefone;
-    @Column(name = "telefone_emergencia", columnDefinition = "VARCHAR(15)")
-    private String telefoneEmergencia;
-    @Column(name = "tipo_sanguineo", columnDefinition = "VARCHAR(3)")
-    private String tipoSanguineo;
-    @Column(name = "ocupacao", columnDefinition = "VARCHAR(255)")
-    private String ocupacao;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles", // Nome da tabela de junção

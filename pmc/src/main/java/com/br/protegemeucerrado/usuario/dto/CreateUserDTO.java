@@ -11,9 +11,6 @@ public record CreateUserDTO(
                 String cpf,
                 LocalDate dataNascimento,
                 String telefone,
-                String telefoneEmergencia,
-                String tipoSanguineo,
-                String ocupacao,
                 Role role) {
 
 }

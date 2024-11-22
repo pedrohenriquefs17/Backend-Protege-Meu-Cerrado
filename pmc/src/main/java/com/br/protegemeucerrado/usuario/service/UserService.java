@@ -50,9 +50,6 @@ public class UserService {
                 .cpf(createUserDto.cpf())
                 .dataNascimento(createUserDto.dataNascimento())
                 .telefone(createUserDto.telefone())
-                .telefoneEmergencia(createUserDto.telefoneEmergencia())
-                .tipoSanguineo(createUserDto.tipoSanguineo())
-                .ocupacao(createUserDto.ocupacao())
                 .roles(List.of(role)) // Associa a role ao usuário
                 .build();
         userRepository.save(newUser);
@@ -91,9 +88,6 @@ public class UserService {
             userAtual.setCpf(updateUserDTO.cpf());
             userAtual.setDataNascimento(updateUserDTO.dataNascimento());
             userAtual.setTelefone(updateUserDTO.telefone());
-            userAtual.setTelefoneEmergencia(updateUserDTO.telefoneEmergencia());
-            userAtual.setTipoSanguineo(updateUserDTO.tipoSanguineo());
-            userAtual.setOcupacao(updateUserDTO.ocupacao());
             userAtual.getRoles().clear();
             userAtual.getRoles().add(roleService.getOrCreateRole(updateUserDTO.role()));
             userRepository.save(userAtual);
