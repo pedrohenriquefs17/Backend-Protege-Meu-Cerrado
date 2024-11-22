@@ -37,8 +37,6 @@ public class ModelUser implements Serializable {
     private String email;
     @Column(name = "senha", nullable = false, columnDefinition = "VARCHAR(255)")
     private String senha;
-    @Column(name = "operador", nullable = false, columnDefinition = "INTEGER")
-    private Integer operador;
     @Column(name = "nome", nullable = false, columnDefinition = "VARCHAR(255)")
     private String nome;
     @Column(name = "cpf", nullable = false, unique = true, columnDefinition = "VARCHAR(15)")

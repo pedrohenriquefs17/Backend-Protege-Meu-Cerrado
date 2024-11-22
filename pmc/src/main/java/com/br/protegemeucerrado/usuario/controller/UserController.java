@@ -62,13 +62,6 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Já existe uma pessoa usando esse email!");
             }
-            if (createUserDTO.operador() != 0 && userRepository.findByOperador(createUserDTO.operador()).isPresent()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Número do operador já existe");
-            }
-
-            if (createUserDTO.operador() < 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Número do operador inválido");
-            }
             if (userRepository.findByCpf(createUserDTO.cpf()).isPresent()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado");
             }

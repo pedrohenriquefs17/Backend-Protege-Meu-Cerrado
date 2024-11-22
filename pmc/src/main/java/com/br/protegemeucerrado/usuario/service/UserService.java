@@ -46,7 +46,6 @@ public class UserService {
         ModelUser newUser = ModelUser.builder()
                 .email(createUserDto.email())
                 .senha(passwordEncoder.encode(createUserDto.senha()))
-                .operador(createUserDto.operador())
                 .nome(createUserDto.nome())
                 .cpf(createUserDto.cpf())
                 .dataNascimento(createUserDto.dataNascimento())
@@ -80,13 +79,6 @@ public class UserService {
                     && userRepository.findByEmail(updateUserDTO.email()).isPresent()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("E-mail ja cadastrado");
             }
-            if (updateUserDTO.operador() != 0 && userRepository.findByOperador(updateUserDTO.operador()).isPresent()
-                    && !userAtual.getOperador().equals(updateUserDTO.operador())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Número do operador já existe");
-            }
-            if (updateUserDTO.operador() < 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Número do operador inválido");
-            }
 
             if (!updateUserDTO.senha().isEmpty()
                     && !passwordEncoder.matches(updateUserDTO.senha(), userAtual.getSenha())) {
@@ -95,7 +87,6 @@ public class UserService {
             }
 
             userAtual.setEmail(updateUserDTO.email());
-            userAtual.setOperador(updateUserDTO.operador());
             userAtual.setNome(updateUserDTO.nome());
             userAtual.setCpf(updateUserDTO.cpf());
             userAtual.setDataNascimento(updateUserDTO.dataNascimento());
@@ -106,7 +97,7 @@ public class UserService {
             userAtual.getRoles().clear();
             userAtual.getRoles().add(roleService.getOrCreateRole(updateUserDTO.role()));
             userRepository.save(userAtual);
-            return ResponseEntity.status(200).body("Operador atualizado");
+            return ResponseEntity.status(200).body("Usuario atualizado");
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar usuário: " + e.getMessage());

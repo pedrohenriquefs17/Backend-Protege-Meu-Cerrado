@@ -5,16 +5,15 @@ import java.time.LocalDate;
 import com.br.protegemeucerrado.usuario.enums.Role;
 
 public record CreateUserDTO(
-        String email,
-        String nome,
-        String senha,
-        int operador,
-        String cpf,
-        LocalDate dataNascimento,
-        String telefone,
-        String telefoneEmergencia,
-        String tipoSanguineo,
-        String ocupacao,
-        Role role) {
+                String email,
+                String nome,
+                String senha,
+                String cpf,
+                LocalDate dataNascimento,
+                String telefone,
+                String telefoneEmergencia,
+                String tipoSanguineo,
+                String ocupacao,
+                Role role) {
 
 }
