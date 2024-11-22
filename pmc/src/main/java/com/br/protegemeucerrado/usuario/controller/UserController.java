@@ -1,6 +1,5 @@
 package com.br.protegemeucerrado.usuario.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,10 +97,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/listar/usuarios") // lista todos usuarios
-    public ResponseEntity<List<ModelUser>> listarUsuarios() {
-        return ResponseEntity.status(200).body(userService.listarLogins());
-    }
+    // @GetMapping("/listar/usuarios") // lista todos usuarios
+    // public ResponseEntity<List<ModelUser>> listarUsuarios() {
+    // return ResponseEntity.status(200).body(userService.listarLogins());
+    // }
 
     @GetMapping("/listar/usuario") // lista usuario atual
     public ModelUser getMethodName(@RequestParam("usuario") String id) {

@@ -54,7 +54,6 @@ public class UserService {
                 .telefoneEmergencia(createUserDto.telefoneEmergencia())
                 .tipoSanguineo(createUserDto.tipoSanguineo())
                 .ocupacao(createUserDto.ocupacao())
-                .statusOperador(createUserDto.statusOperador())
                 .roles(List.of(role)) // Associa a role ao usuário
                 .build();
         userRepository.save(newUser);
@@ -104,7 +103,6 @@ public class UserService {
             userAtual.setTelefoneEmergencia(updateUserDTO.telefoneEmergencia());
             userAtual.setTipoSanguineo(updateUserDTO.tipoSanguineo());
             userAtual.setOcupacao(updateUserDTO.ocupacao());
-            userAtual.setStatusOperador(updateUserDTO.statusOperador());
             userAtual.getRoles().clear();
             userAtual.getRoles().add(roleService.getOrCreateRole(updateUserDTO.role()));
             userRepository.save(userAtual);
@@ -121,9 +119,5 @@ public class UserService {
             return true;
         }
         return false;
-    }
-
-    public List<ModelUser> listarLogins() {// retirar depois
-        return userRepository.findAllExcludingStatusOperador("ADMIN");
     }
 }

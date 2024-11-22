@@ -53,8 +53,6 @@ public class ModelUser implements Serializable {
     private String tipoSanguineo;
     @Column(name = "ocupacao", columnDefinition = "VARCHAR(255)")
     private String ocupacao;
-    @Column(name = "status_operador", columnDefinition = "VARCHAR(20)")
-    private String statusOperador;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles", // Nome da tabela de junção
