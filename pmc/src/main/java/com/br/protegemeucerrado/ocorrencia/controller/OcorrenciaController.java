@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.protegemeucerrado.ocorrencia.model.Categoria;
 import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 import com.br.protegemeucerrado.ocorrencia.service.OcorrenciaService;
 
@@ -28,6 +29,11 @@ public class OcorrenciaController {
     @GetMapping
     public ResponseEntity<List<Ocorrencia>> listarOcorrencias() {
         return ResponseEntity.status(200).body(ocServ.listarOcorrencias());
+    }
+
+    @GetMapping("/categorias")
+    public ResponseEntity<List<Categoria>> listarCategorias() {
+        return ResponseEntity.status(200).body(ocServ.listarCategorias());
     }
 
     @PostMapping
