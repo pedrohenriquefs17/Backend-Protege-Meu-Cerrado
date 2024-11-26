@@ -25,7 +25,7 @@ public class EmailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("noreply@gmail.com");
+            helper.setFrom("vitorsiegairriga@gmail.com");
             helper.setSubject("VERIFICAÇÃO DE EMAIL");
             helper.setTo(emailDto.email());
 
@@ -35,7 +35,7 @@ public class EmailService {
             helper.setText(template, true);
             javaMailSender.send(message);
         } catch (Exception exception) {
-            System.out.println("erro");
+            System.out.println("Erro ao enviar e-mail: " + exception.getMessage());
         }
     }
 
