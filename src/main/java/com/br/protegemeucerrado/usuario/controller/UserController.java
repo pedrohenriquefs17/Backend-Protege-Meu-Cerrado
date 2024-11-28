@@ -27,7 +27,7 @@ import com.br.protegemeucerrado.usuario.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/pmc/usuario")
 public class UserController {
 
     @Autowired
