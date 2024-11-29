@@ -34,12 +34,12 @@ public class OcorrenciaController {
         return ResponseEntity.status(200).body(ocServ.listarCategorias());
     }
 
-    @PostMapping
+    @PostMapping("/cadastro")
     public ResponseEntity<Ocorrencia> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
         return ResponseEntity.status(201).body(ocServ.cadastrarOcorrencia(oc));
     }
 
-    @PutMapping
+    @PutMapping("/editar")
     public ResponseEntity<Ocorrencia> editarOcorrencia(@RequestBody Ocorrencia oc) {
         return ResponseEntity.status(200).body(ocServ.editarOcorrencia(oc));
     }
