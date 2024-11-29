@@ -24,7 +24,7 @@ public class OcorrenciaController {
     @Autowired
     private OcorrenciaService ocServ;
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<List<Ocorrencia>> listarOcorrencias() {
         return ResponseEntity.status(200).body(ocServ.listarOcorrencias());
     }
@@ -34,12 +34,12 @@ public class OcorrenciaController {
         return ResponseEntity.status(200).body(ocServ.listarCategorias());
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping
     public ResponseEntity<Ocorrencia> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
         return ResponseEntity.status(201).body(ocServ.cadastrarOcorrencia(oc));
     }
 
-    @PutMapping("/editar")
+    @PutMapping
     public ResponseEntity<Ocorrencia> editarOcorrencia(@RequestBody Ocorrencia oc) {
         return ResponseEntity.status(200).body(ocServ.editarOcorrencia(oc));
     }
