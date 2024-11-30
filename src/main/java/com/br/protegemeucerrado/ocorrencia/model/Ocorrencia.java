@@ -1,5 +1,7 @@
 package com.br.protegemeucerrado.ocorrencia.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Ocorrencia {
     private Integer id;
 
     @Column(name = "id_user", nullable = true)
-    private Integer idUser;
+    private Integer id_user;
 
     @Column(name = "id_categoria", nullable = true)
     private Integer id_categoria;
@@ -33,4 +35,12 @@ public class Ocorrencia {
     @Column(name = "is_anon", columnDefinition = "BOOLEAN", nullable = true)
     private Boolean is_anon = false;
 
+    @Column(name = "dt_ocorrencia", columnDefinition = "DATE", nullable = true)
+    private Date dt_ocorrencia;
+
+    @Column(name = "lat", length = 150, nullable = true)
+    private String lat;
+
+    @Column(name = "lon", length = 150, nullable = true)
+    private String lon;
 }

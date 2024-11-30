@@ -20,19 +20,29 @@ public class OcorrenciaService {
         this.catDao = catDao;
     }
 
-    public Ocorrencia cadastrarOcorrencia(Ocorrencia oc) {
-        ocDao.save(oc);
-        return oc;
+    public Boolean cadastrarOcorrencia(Ocorrencia oc) {
+        if (!oc.getDescricao().isEmpty() && !oc.getLat().isEmpty() && !oc.getLon().isEmpty()) {
+            ocDao.save(oc);
+            return true;
+        } else
+            return false;
     }
 
-    public Ocorrencia editarOcorrencia(Ocorrencia oc) {
-        ocDao.save(oc);
-        return oc;
+    public Boolean editarOcorrencia(Ocorrencia oc) {
+        if (!oc.getDescricao().isEmpty() && !oc.getLat().isEmpty() && !oc.getLon().isEmpty()) {
+            ocDao.save(oc);
+            return true;
+        } else
+            return false;
     }
 
     public Boolean excluirOcorrencia(Integer id) {
-        ocDao.deleteById(id);
-        return true;
+        if (!ocDao.findById(id).isEmpty()) {
+            ocDao.deleteById(id);
+            return true;
+        } else
+            return false;
+
     }
 
     public List<Ocorrencia> listarOcorrencias() {
