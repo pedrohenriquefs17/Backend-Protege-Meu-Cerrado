@@ -12,12 +12,9 @@ import lombok.Data;
 @Entity
 @Table(name = "categorias")
 public class Categoria {
-    
-    //Identifica como uma chave primária
+
     @Id
-    //Identifica como auto increment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Identifica o nome da coluna do banco
     @Column(name = "id")
     private Integer id;
 

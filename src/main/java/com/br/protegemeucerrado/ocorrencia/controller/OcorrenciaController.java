@@ -36,17 +36,25 @@ public class OcorrenciaController {
 
     @PostMapping
     public ResponseEntity<Ocorrencia> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
-        return ResponseEntity.status(201).body(ocServ.cadastrarOcorrencia(oc));
+        if (ocServ.cadastrarOcorrencia(oc)) {
+            return ResponseEntity.status(201).body(oc);
+        } else
+            return ResponseEntity.status(400).body(oc);
     }
 
     @PutMapping
     public ResponseEntity<Ocorrencia> editarOcorrencia(@RequestBody Ocorrencia oc) {
-        return ResponseEntity.status(200).body(ocServ.editarOcorrencia(oc));
+        if (ocServ.editarOcorrencia(oc)) {
+            return ResponseEntity.status(201).body(oc);
+        } else
+            return ResponseEntity.status(400).body(oc);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirOcorrencia(@PathVariable Integer id) {
-        ocServ.excluirOcorrencia(id);
-        return ResponseEntity.status(200).build();
+        if(ocServ.excluirOcorrencia(id)){
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
     }
 }
