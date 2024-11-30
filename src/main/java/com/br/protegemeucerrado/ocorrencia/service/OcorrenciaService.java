@@ -22,8 +22,21 @@ public class OcorrenciaService {
 
     public Boolean cadastrarOcorrencia(Ocorrencia oc) {
         if (!oc.getDescricao().isEmpty() && !oc.getLat().isEmpty() && !oc.getLon().isEmpty()) {
-            ocDao.save(oc);
-            return true;
+            if (oc.getId_user() != null) {
+                oc.setNome(null);
+                oc.setCpf(null);
+                oc.setDt_nasc(null);
+                oc.setTelefone(null);
+                oc.setEmail(null);
+                ocDao.save(oc);
+                return true;
+            } else {
+                if(!oc.getNome().isEmpty() && !oc.getCpf().isEmpty() && !oc.getTelefone().isEmpty() && !oc.getEmail().isEmpty()){
+                    ocDao.save(oc);
+                    return true;    
+                }
+                return false;
+            }
         } else
             return false;
     }
