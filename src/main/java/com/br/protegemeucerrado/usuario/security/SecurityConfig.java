@@ -53,7 +53,8 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-                Arrays.asList("https://airsoftcontrol.com.br/", "http://localhost:81", "https://localhost:81"));
+                Arrays.asList("https://airsoftcontrol.com.br/", "http://localhost:81", "https://localhost:8080",
+                        "http://localhost:3000", "http://localhost:3001"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
