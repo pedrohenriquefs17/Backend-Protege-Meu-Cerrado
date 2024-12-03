@@ -42,7 +42,6 @@ public class OcorrenciaController {
             ocServ.cadastrarOcorrencia(oc);
             return new ResponseEntity<>("Ocorrência cadastrada com sucesso!", HttpStatus.CREATED);
         } catch (OcorrenciaException e) {
-            // Aqui a exceção será tratada pelo @ControllerAdvice
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +54,6 @@ public class OcorrenciaController {
             ocServ.editarOcorrencia(oc);
             return new ResponseEntity<>("Ocorrência editada com sucesso!", HttpStatus.CREATED);
         } catch (OcorrenciaException e) {
-            // Aqui a exceção será tratada pelo @ControllerAdvice
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +66,6 @@ public class OcorrenciaController {
             ocServ.excluirOcorrencia(id);
             return new ResponseEntity<>("Ocorrência deletada com sucesso!", HttpStatus.CREATED);
         } catch (OcorrenciaException e) {
-            // Aqui a exceção será tratada pelo @ControllerAdvice
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

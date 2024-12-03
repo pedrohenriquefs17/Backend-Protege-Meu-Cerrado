@@ -27,7 +27,6 @@ public class OcorrenciaService {
         }
 
         if (oc.getId_user() != null) {
-            // Limpa os dados pessoais se o usuário estiver associado
             oc.setNome(null);
             oc.setCpf(null);
             oc.setDt_nasc(null);
@@ -36,7 +35,6 @@ public class OcorrenciaService {
             ocDao.save(oc);
             return true;
         } else {
-            // Se o usuário não estiver associado, valida os dados pessoais
             if (oc.getNome().isEmpty() || oc.getCpf().isEmpty() || oc.getTelefone().isEmpty()
                     || oc.getEmail().isEmpty()) {
                 throw new OcorrenciaException(
