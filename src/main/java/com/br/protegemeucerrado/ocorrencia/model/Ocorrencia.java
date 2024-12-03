@@ -29,6 +29,21 @@ public class Ocorrencia {
     @Column(name = "id_categoria", nullable = true)
     private Integer id_categoria;
 
+    @Column(name = "nome", length = 255, nullable = true)
+    private String nome;
+
+    @Column(name = "email", length = 255, nullable = true)
+    private String email;
+
+    @Column(name = "cpf", length = 15, nullable = true)
+    private String cpf;
+
+    @Column(name = "telefone", length = 15, nullable = true)
+    private String telefone;
+
+    @Column(name = "dt_nasc", columnDefinition = "DATE", nullable = true)
+    private Date dt_nasc;
+
     @Column(name = "descricao", length = 255, nullable = true)
     private String descricao;
 
