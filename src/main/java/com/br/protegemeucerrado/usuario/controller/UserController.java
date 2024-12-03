@@ -42,9 +42,14 @@ public class UserController {
     public ResponseEntity<?> loginUsuario(@RequestBody LoginUserDTO loginUserDto) {
         try {
             Optional<ModelUser> userOptional = userRepository.findByEmail(loginUserDto.email());
-            returnModel.setTokenDTO(userService.autenticarUsuario(loginUserDto));
-            returnModel.setIdUsuario(String.valueOf(userOptional.get().getId()));
-            return new ResponseEntity<>(returnModel, HttpStatus.OK);
+            if (userOptional.get().isValidado()) {
+                returnModel.setTokenDTO(userService.autenticarUsuario(loginUserDto));
+                returnModel.setIdUsuario(String.valueOf(userOptional.get().getId()));
+                return new ResponseEntity<>(returnModel, HttpStatus.OK);
+            }
+            if (!userOptional.get().isValidado())
+                return new ResponseEntity<>(new ErrorResponse("Conta não autenticado"), HttpStatus.UNAUTHORIZED);
+
         } catch (AuthenticationException e) {
             // Autenticação falhou, retornar status 401
             return new ResponseEntity<>(new ErrorResponse("Credenciais inválidas"), HttpStatus.UNAUTHORIZED);
@@ -53,6 +58,7 @@ public class UserController {
             return new ResponseEntity<>(new ErrorResponse("Erro interno do servidor"),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return null;
     }
 
     @PostMapping("/cadastro")
