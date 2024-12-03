@@ -1,4 +1,4 @@
-package com.br.protegemeucerrado.usuario.mail.rest;
+package com.br.protegemeucerrado.usuario.mail.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;

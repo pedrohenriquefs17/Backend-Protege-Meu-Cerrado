@@ -25,6 +25,7 @@ import com.br.protegemeucerrado.usuario.repository.UserRepository;
 import com.br.protegemeucerrado.usuario.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/pmc/usuario")
@@ -70,9 +71,24 @@ public class UserController {
             }
 
             userService.salvarUsuario(createUserDTO);
+
             return ResponseEntity.status(201).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar usuário: " + e.getMessage());
+        }
+    }
+
+    @Transactional
+    @GetMapping("/validarmail")
+    public ResponseEntity<String> postMethodName(@RequestParam("email") String email,
+            @RequestParam("codigo") int codigo) {
+        Optional<ModelUser> verifUSer = userRepository.findByEmailAndCodigoVerificador(email, codigo);
+
+        if (verifUSer.isEmpty()) {
+            return ResponseEntity.status(500).body(null);
+        } else {
+            userRepository.validarEmail(email, codigo);
+            return ResponseEntity.status(200).body(null);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.br.protegemeucerrado.usuario.service;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.br.protegemeucerrado.usuario.dto.CreateUserDTO;
 import com.br.protegemeucerrado.usuario.dto.JwtTokenDTO;
 import com.br.protegemeucerrado.usuario.dto.LoginUserDTO;
+import com.br.protegemeucerrado.usuario.mail.dtos.EmailDto;
+import com.br.protegemeucerrado.usuario.mail.service.EmailService;
 import com.br.protegemeucerrado.usuario.model.ModelRole;
 import com.br.protegemeucerrado.usuario.model.ModelUser;
 import com.br.protegemeucerrado.usuario.model.ModelUserDetailsImpl;
@@ -29,17 +32,23 @@ public class UserService {
     private final JwtTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final EmailService emailService;
+    private EmailDto newEnvEmail;
 
     public UserService(UserRepository userRepository, AuthenticationManager authenticationManager,
-            JwtTokenService jwtTokenService, PasswordEncoder passwordEncoder, RoleService roleService) {
+            JwtTokenService jwtTokenService, PasswordEncoder passwordEncoder, RoleService roleService,
+            EmailService emailService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtTokenService = jwtTokenService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.emailService = emailService;
     }
 
     public void salvarUsuario(CreateUserDTO createUserDto) {
+        Random gerador = new Random();
+        int codigo = gerador.nextInt(99999999);
         // Obtemos ou criamos a role
         ModelRole role = roleService.getOrCreateRole(createUserDto.role());
         // Cria o novo usuário com a role associada
@@ -51,8 +60,12 @@ public class UserService {
                 .dataNascimento(createUserDto.dataNascimento())
                 .telefone(createUserDto.telefone())
                 .roles(List.of(role)) // Associa a role ao usuário
+                .validado(false)
+                .codigoVerificador(codigo)
                 .build();
         userRepository.save(newUser);
+        newEnvEmail = new EmailDto(newUser.getEmail(), newUser.getNome(), newUser.getCodigoVerificador());
+        emailService.enviaEmail(newEnvEmail);
     }
 
     public JwtTokenDTO autenticarUsuario(LoginUserDTO loginUserDto) {
