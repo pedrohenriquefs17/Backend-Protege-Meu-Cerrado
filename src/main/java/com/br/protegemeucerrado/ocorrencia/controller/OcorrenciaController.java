@@ -3,6 +3,7 @@ package com.br.protegemeucerrado.ocorrencia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.protegemeucerrado.ocorrencia.exception.OcorrenciaException;
 import com.br.protegemeucerrado.ocorrencia.model.Categoria;
 import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 import com.br.protegemeucerrado.ocorrencia.service.OcorrenciaService;
@@ -35,26 +37,41 @@ public class OcorrenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<Ocorrencia> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
-        if (ocServ.cadastrarOcorrencia(oc)) {
-            return ResponseEntity.status(201).body(oc);
-        } else
-            return ResponseEntity.status(400).body(oc);
+    public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
+        try {
+            ocServ.cadastrarOcorrencia(oc);
+            return new ResponseEntity<>("Ocorrência cadastrada com sucesso!", HttpStatus.CREATED);
+        } catch (OcorrenciaException e) {
+            // Aqui a exceção será tratada pelo @ControllerAdvice
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping
-    public ResponseEntity<Ocorrencia> editarOcorrencia(@RequestBody Ocorrencia oc) {
-        if (ocServ.editarOcorrencia(oc)) {
-            return ResponseEntity.status(201).body(oc);
-        } else
-            return ResponseEntity.status(400).body(oc);
+    public ResponseEntity<String> editarOcorrencia(@RequestBody Ocorrencia oc) {
+        try {
+            ocServ.editarOcorrencia(oc);
+            return new ResponseEntity<>("Ocorrência editada com sucesso!", HttpStatus.CREATED);
+        } catch (OcorrenciaException e) {
+            // Aqui a exceção será tratada pelo @ControllerAdvice
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirOcorrencia(@PathVariable Integer id) {
-        if(ocServ.excluirOcorrencia(id)){
-            return ResponseEntity.status(200).build();
+    public ResponseEntity<String> excluirOcorrencia(@PathVariable Integer id) {
+        try {
+            ocServ.excluirOcorrencia(id);
+            return new ResponseEntity<>("Ocorrência deletada com sucesso!", HttpStatus.CREATED);
+        } catch (OcorrenciaException e) {
+            // Aqui a exceção será tratada pelo @ControllerAdvice
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return ResponseEntity.status(400).build();
     }
 }
