@@ -45,6 +45,10 @@ public class ModelUser implements Serializable {
     private LocalDate dataNascimento;
     @Column(name = "telefone", columnDefinition = "VARCHAR(15)")
     private String telefone;
+    @Column(name = "validado", columnDefinition = "BOOLEAN", nullable = false)
+    private boolean validado;
+    @Column(name = "codigo_verificador", columnDefinition = "INT")
+    private int codigoVerificador;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles", // Nome da tabela de junção

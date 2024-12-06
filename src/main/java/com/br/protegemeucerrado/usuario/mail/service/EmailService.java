@@ -25,13 +25,15 @@ public class EmailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("vitorsiegairriga@gmail.com");
+            helper.setFrom("protegemeucerrado@gmail.com.br");
             helper.setSubject("VERIFICAÇÃO DE EMAIL");
             helper.setTo(emailDto.email());
 
             String template = carregaTemplateEmail();
 
             template = template.replace("#{nome}", emailDto.nome());
+            template = template.replace("#{codigo}", String.valueOf(emailDto.codigo_verificador()));
+            template = template.replace("#{email}", emailDto.email());
             helper.setText(template, true);
             javaMailSender.send(message);
         } catch (Exception exception) {

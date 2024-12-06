@@ -1,5 +1,4 @@
-// package com.example.projeto.configuracoes;
-
+// package com.br.protegemeucerrado.configuracoes;
 // import java.io.IOException;
 // import java.security.InvalidKeyException;
 // import java.security.NoSuchAlgorithmException;

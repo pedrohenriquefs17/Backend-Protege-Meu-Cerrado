@@ -25,6 +25,7 @@ import com.br.protegemeucerrado.usuario.repository.UserRepository;
 import com.br.protegemeucerrado.usuario.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/pmc/usuario")
@@ -41,9 +42,14 @@ public class UserController {
     public ResponseEntity<?> loginUsuario(@RequestBody LoginUserDTO loginUserDto) {
         try {
             Optional<ModelUser> userOptional = userRepository.findByEmail(loginUserDto.email());
-            returnModel.setTokenDTO(userService.autenticarUsuario(loginUserDto));
-            returnModel.setIdUsuario(String.valueOf(userOptional.get().getId()));
-            return new ResponseEntity<>(returnModel, HttpStatus.OK);
+            if (userOptional.get().isValidado()) {
+                returnModel.setTokenDTO(userService.autenticarUsuario(loginUserDto));
+                returnModel.setIdUsuario(String.valueOf(userOptional.get().getId()));
+                return new ResponseEntity<>(returnModel, HttpStatus.OK);
+            }
+            if (!userOptional.get().isValidado())
+                return new ResponseEntity<>(new ErrorResponse("Conta não autenticado"), HttpStatus.UNAUTHORIZED);
+
         } catch (AuthenticationException e) {
             // Autenticação falhou, retornar status 401
             return new ResponseEntity<>(new ErrorResponse("Credenciais inválidas"), HttpStatus.UNAUTHORIZED);
@@ -52,6 +58,7 @@ public class UserController {
             return new ResponseEntity<>(new ErrorResponse("Erro interno do servidor"),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return null;
     }
 
     @PostMapping("/cadastro")
@@ -70,9 +77,24 @@ public class UserController {
             }
 
             userService.salvarUsuario(createUserDTO);
+
             return ResponseEntity.status(201).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar usuário: " + e.getMessage());
+        }
+    }
+
+    @Transactional
+    @GetMapping("/validarmail")
+    public ResponseEntity<String> postMethodName(@RequestParam("email") String email,
+            @RequestParam("codigo") int codigo) {
+        Optional<ModelUser> verifUSer = userRepository.findByEmailAndCodigoVerificador(email, codigo);
+
+        if (verifUSer.isEmpty()) {
+            return ResponseEntity.status(500).body(null);
+        } else {
+            userRepository.validarEmail(email, codigo);
+            return ResponseEntity.status(200).body(null);
         }
     }
 
