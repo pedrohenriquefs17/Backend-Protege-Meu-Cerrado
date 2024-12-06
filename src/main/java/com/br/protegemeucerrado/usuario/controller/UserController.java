@@ -133,4 +133,9 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.listarLogins());
     }
 
+    @GetMapping("/admin/quantidadeUsuarios")
+    public int quantidadeUsuario() {
+        return userRepository.countUsers();
+    }
+
 }

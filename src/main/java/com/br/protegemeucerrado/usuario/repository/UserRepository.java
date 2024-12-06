@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<ModelUser, Long> {
     @Query("UPDATE ModelUser u SET u.validado = true WHERE u.email = :email AND u.codigoVerificador = :codigo")
     void validarEmail(@Param("email") String email, @Param("codigo") int codigo);
 
+    @Query("SELECT COUNT(u) FROM ModelUser u")
+    int countUsers();
 }
