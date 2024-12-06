@@ -29,6 +29,9 @@ public class Ocorrencia {
     @Column(name = "id_categoria", nullable = true)
     private Integer id_categoria;
 
+    @Column(name = "id_status", nullable = true)
+    private Integer id_status;
+
     @Column(name = "nome", length = 255, nullable = true)
     private String nome;
 

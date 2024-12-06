@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.protegemeucerrado.ocorrencia.exception.OcorrenciaException;
 import com.br.protegemeucerrado.ocorrencia.model.Categoria;
 import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
+import com.br.protegemeucerrado.ocorrencia.model.Status;
 import com.br.protegemeucerrado.ocorrencia.service.OcorrenciaService;
 
 @RestController
@@ -34,6 +35,11 @@ public class OcorrenciaController {
     @GetMapping("/categorias")
     public ResponseEntity<List<Categoria>> listarCategorias() {
         return ResponseEntity.status(200).body(ocServ.listarCategorias());
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<Status>> listarStatus() {
+        return ResponseEntity.status(200).body(ocServ.listarStatus());
     }
 
     @PostMapping
