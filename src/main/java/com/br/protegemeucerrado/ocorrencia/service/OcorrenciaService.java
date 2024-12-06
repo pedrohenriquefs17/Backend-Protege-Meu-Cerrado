@@ -6,22 +6,29 @@ import org.springframework.stereotype.Service;
 
 import com.br.protegemeucerrado.ocorrencia.DAO.CategoriaDAO;
 import com.br.protegemeucerrado.ocorrencia.DAO.OcorrenciaDAO;
+import com.br.protegemeucerrado.ocorrencia.DAO.StatusDAO;
 import com.br.protegemeucerrado.ocorrencia.exception.OcorrenciaException;
 import com.br.protegemeucerrado.ocorrencia.model.Categoria;
 import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
+import com.br.protegemeucerrado.ocorrencia.model.Status;
 
 @Service
 public class OcorrenciaService {
 
     private OcorrenciaDAO ocDao;
     private CategoriaDAO catDao;
+    private StatusDAO staDao;
 
-    public OcorrenciaService(OcorrenciaDAO ocDao, CategoriaDAO catDao) {
+    public OcorrenciaService(OcorrenciaDAO ocDao, CategoriaDAO catDao, StatusDAO staDao) {
         this.ocDao = ocDao;
         this.catDao = catDao;
+        this.staDao = staDao;
     }
 
     public Boolean cadastrarOcorrencia(Ocorrencia oc) throws OcorrenciaException {
+
+        oc.setId_status(1);
+
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
@@ -91,4 +98,10 @@ public class OcorrenciaService {
         return catOc;
     }
 
+    public List<Status> listarStatus() {
+        List<Status> staOc = staDao.findAll();
+        return staOc;
+    }
+
 }
+
