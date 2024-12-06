@@ -35,6 +35,14 @@ public class UserService {
     private final EmailService emailService;
     private EmailDto newEnvEmail;
 
+    // funções privadas
+    private int gerarCodigo() { // função gerar um código aleatório
+        Random gerador = new Random();
+        int codigo = gerador.nextInt(99999999);
+        return codigo;
+    }
+
+    // funções sistema
     public UserService(UserRepository userRepository, AuthenticationManager authenticationManager,
             JwtTokenService jwtTokenService, PasswordEncoder passwordEncoder, RoleService roleService,
             EmailService emailService) {
@@ -47,8 +55,6 @@ public class UserService {
     }
 
     public void salvarUsuario(CreateUserDTO createUserDto) {
-        Random gerador = new Random();
-        int codigo = gerador.nextInt(99999999);
         // Obtemos ou criamos a role
         ModelRole role = roleService.getOrCreateRole(createUserDto.role());
         // Cria o novo usuário com a role associada
@@ -61,22 +67,11 @@ public class UserService {
                 .telefone(createUserDto.telefone())
                 .roles(List.of(role)) // Associa a role ao usuário
                 .validado(false)
-                .codigoVerificador(codigo)
+                .codigoVerificador(gerarCodigo())
                 .build();
         userRepository.save(newUser);
         newEnvEmail = new EmailDto(newUser.getEmail(), newUser.getNome(), newUser.getCodigoVerificador());
         emailService.enviaEmail(newEnvEmail);
-    }
-
-    public JwtTokenDTO autenticarUsuario(LoginUserDTO loginUserDto) {
-        // Cria o token de autenticação
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginUserDto.email(), loginUserDto.senha());
-        // Autentica o usuário
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        ModelUserDetailsImpl modelUserDetails = (ModelUserDetailsImpl) authentication.getPrincipal();
-        // Gera o JWT token
-        return new JwtTokenDTO(jwtTokenService.generateToken(modelUserDetails));
     }
 
     public ResponseEntity<String> atualizarUsuario(Long id, CreateUserDTO updateUserDTO) {
@@ -117,5 +112,22 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public List listarLogins() {
+        List<ModelUser> usuarios = userRepository.findAll();
+        return usuarios;
+    }
+
+    public JwtTokenDTO autenticarUsuario(LoginUserDTO loginUserDto) {
+        // Cria o token de autenticação
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginUserDto.email(), loginUserDto.senha());
+        // Autentica o usuário
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        ModelUserDetailsImpl modelUserDetails = (ModelUserDetailsImpl) authentication.getPrincipal();
+        // Gera o JWT token
+        return new JwtTokenDTO(jwtTokenService.generateToken(modelUserDetails));
     }
 }

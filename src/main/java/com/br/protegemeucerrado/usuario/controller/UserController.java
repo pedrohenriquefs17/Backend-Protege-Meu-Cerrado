@@ -1,5 +1,7 @@
 package com.br.protegemeucerrado.usuario.controller;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("/pmc/usuario")
+@RequestMapping("/pmc")
 public class UserController {
 
     @Autowired
@@ -77,33 +79,46 @@ public class UserController {
             }
 
             userService.salvarUsuario(createUserDTO);
-
             return ResponseEntity.status(201).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar usuário: " + e.getMessage());
         }
     }
 
-    @Transactional
-    @GetMapping("/validarmail")
-    public ResponseEntity<String> postMethodName(@RequestParam("email") String email,
-            @RequestParam("codigo") int codigo) {
-        Optional<ModelUser> verifUSer = userRepository.findByEmailAndCodigoVerificador(email, codigo);
-
-        if (verifUSer.isEmpty()) {
-            return ResponseEntity.status(500).body(null);
-        } else {
-            userRepository.validarEmail(email, codigo);
-            return ResponseEntity.status(200).body(null);
-        }
+    @GetMapping("/listar/usuario") // lista usuario atual
+    public ModelUser listarUsuarioAtual(@RequestParam("usuario") String id) {
+        Long IDD = Long.valueOf(id);
+        ModelUser user = userRepository.findById(IDD)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+        user.setSenha("");
+        return user;
     }
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/atualizar/usuario/{id}")
     public ResponseEntity<String> atualizarUsuario(@PathVariable Long id, @RequestBody CreateUserDTO createUserDTO) {
         return userService.atualizarUsuario(id, createUserDTO);
     }
 
-    @DeleteMapping("/remover/{id}")
+    // funcionalidade sistema
+    @Transactional
+    @GetMapping("/validarmail")
+    public ResponseEntity<Void> validarEmail(@RequestParam("email") String email,
+            @RequestParam("codigo") int codigo) {
+        Optional<ModelUser> verifUSer = userRepository.findByEmailAndCodigoVerificador(email, codigo);
+
+        if (verifUSer.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            userRepository.validarEmail(email, codigo);
+            String redirectUrl = "https://www.youtube.com";
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .location(URI.create(redirectUrl))
+                    .build();
+        }
+    }
+
+    // funções admin
+    @DeleteMapping("/admin/remover/{id}")
     public ResponseEntity<String> removerUsuario(@PathVariable Long id) {
         if (userService.removerUsuario(id)) {
             return ResponseEntity.status(200).body(null);
@@ -112,18 +127,10 @@ public class UserController {
         }
     }
 
-    // @GetMapping("/listar/usuarios") // lista todos usuarios
-    // public ResponseEntity<List<ModelUser>> listarUsuarios() {
-    // return ResponseEntity.status(200).body(userService.listarLogins());
-    // }
-
-    @GetMapping("/listar/usuario") // lista usuario atual
-    public ModelUser getMethodName(@RequestParam("usuario") String id) {
-        Long IDD = Long.valueOf(id);
-        ModelUser user = userRepository.findById(IDD)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-        user.setSenha("");
-        return user;
+    @SuppressWarnings("unchecked")
+    @GetMapping("/admin/listar/usuarios") // lista todos usuarios
+    public ResponseEntity<List<ModelUser>> listarTodosUsuarios() {
+        return ResponseEntity.status(200).body(userService.listarLogins());
     }
 
 }
