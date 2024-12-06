@@ -110,7 +110,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             userRepository.validarEmail(email, codigo);
-            String redirectUrl = "https://www.youtube.com";
+            String redirectUrl = "https://www.youtube.com/shorts/7fTHD07Q9Pw";
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(redirectUrl))
                     .build();
