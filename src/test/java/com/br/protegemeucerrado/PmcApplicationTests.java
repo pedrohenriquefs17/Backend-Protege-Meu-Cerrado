@@ -1,4 +1,4 @@
-package com.br.protegemeucerrado.pmc;
+package com.br.protegemeucerrado;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
