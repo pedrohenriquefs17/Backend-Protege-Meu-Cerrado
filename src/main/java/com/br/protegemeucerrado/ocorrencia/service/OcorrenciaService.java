@@ -27,16 +27,16 @@ public class OcorrenciaService {
 
     public Boolean cadastrarOcorrencia(Ocorrencia oc) throws OcorrenciaException {
 
-        oc.setId_status(1);
+        oc.setIdStatus(1);
 
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
 
-        if (oc.getId_user() != null) {
+        if (oc.getIdUser() != null) {
             oc.setNome(null);
             oc.setCpf(null);
-            oc.setDt_nasc(null);
+            oc.setDtNasc(null);
             oc.setTelefone(null);
             oc.setEmail(null);
             ocDao.save(oc);
@@ -60,10 +60,10 @@ public class OcorrenciaService {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
 
-        if (oc.getId_user() != null) {
+        if (oc.getIdUser() != null) {
             oc.setNome(null);
             oc.setCpf(null);
-            oc.setDt_nasc(null);
+            oc.setDtNasc(null);
             oc.setTelefone(null);
             oc.setEmail(null);
             ocDao.save(oc);
@@ -90,6 +90,11 @@ public class OcorrenciaService {
 
     public List<Ocorrencia> listarOcorrencias() {
         List<Ocorrencia> oc = ocDao.findAll();
+        return oc;
+    }
+
+    public List<Ocorrencia> listarOcUser(Integer id) {
+        List<Ocorrencia> oc = (List<Ocorrencia>) ocDao.findByIdUser(id);
         return oc;
     }
 

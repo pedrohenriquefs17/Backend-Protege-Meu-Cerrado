@@ -24,13 +24,13 @@ public class Ocorrencia {
     private Integer id;
 
     @Column(name = "id_user", nullable = true)
-    private Integer id_user;
+    private Integer idUser;
 
     @Column(name = "id_categoria", nullable = true)
-    private Integer id_categoria;
+    private Integer idCategoria;
 
     @Column(name = "id_status", nullable = true)
-    private Integer id_status;
+    private Integer idStatus;
 
     @Column(name = "nome", length = 255, nullable = true)
     private String nome;
@@ -45,16 +45,16 @@ public class Ocorrencia {
     private String telefone;
 
     @Column(name = "dt_nasc", columnDefinition = "DATE", nullable = true)
-    private Date dt_nasc;
+    private Date dtNasc;
 
     @Column(name = "descricao", length = 255, nullable = true)
     private String descricao;
 
     @Column(name = "is_anon", columnDefinition = "BOOLEAN", nullable = true)
-    private Boolean is_anon = false;
+    private Boolean isAnon = false;
 
     @Column(name = "dt_ocorrencia", columnDefinition = "DATE", nullable = true)
-    private Date dt_ocorrencia;
+    private Date dtOcorrencia;
 
     @Column(name = "lat", length = 150, nullable = true)
     private String lat;
