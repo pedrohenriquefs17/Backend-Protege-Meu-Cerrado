@@ -77,4 +77,9 @@ public class OcorrenciaController {
             return new ResponseEntity<>("Erro inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<Ocorrencia>> listarOcUser(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(ocServ.listarOcUser(id));
+    }
 }
