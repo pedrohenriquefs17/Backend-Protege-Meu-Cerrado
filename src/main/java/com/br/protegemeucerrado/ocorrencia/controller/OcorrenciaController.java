@@ -82,4 +82,9 @@ public class OcorrenciaController {
     public ResponseEntity<List<Ocorrencia>> listarOcUser(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(ocServ.listarOcUser(id));
     }
+
+    @GetMapping("/listastatus/{id}")
+    public ResponseEntity<Integer> listarQtdeStatus(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(ocServ.listarQtdeStatus(id));
+    }
 }

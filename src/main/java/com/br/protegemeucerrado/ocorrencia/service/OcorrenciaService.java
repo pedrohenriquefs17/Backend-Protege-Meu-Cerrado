@@ -98,6 +98,11 @@ public class OcorrenciaService {
         return oc;
     }
 
+    public Integer listarQtdeStatus(Integer id) {
+        Integer oc = ocDao.countByIdStatus(id);
+        return oc;
+    }
+
     public List<Categoria> listarCategorias() {
         List<Categoria> catOc = catDao.findAll();
         return catOc;
