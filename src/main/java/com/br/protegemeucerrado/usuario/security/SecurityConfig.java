@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // .requestMatchers("/api/admin/**").hasAuthority("ADMINISTRADOR") liberar
+                        // .requestMatchers("/ocorrencias/admin/**").hasAuthority("ADMINISTRADOR")
+                        // liberar
                         // depois
                         .anyRequest().permitAll())
                 .addFilterBefore(userAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
