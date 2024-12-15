@@ -44,8 +44,45 @@ public class OcorrenciaController {
         return ResponseEntity.status(200).body(ocServ.listarStatus());
     }
 
+    // @PostMapping
+    // public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc,
+    // @RequestParam("imagem") MultipartFile imagem) {
+    // try {
+    // ocServ.cadastrarOcorrencia(oc, imagem);
+    // return new ResponseEntity<>("Ocorrência cadastrada com sucesso!",
+    // HttpStatus.CREATED);
+    // } catch (OcorrenciaException e) {
+    // return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    // } catch (Exception e) {
+    // return new ResponseEntity<>("Erro inesperado: " + e.getMessage(),
+    // HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
+    // }
+
     @PostMapping
-    public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc, @RequestParam("file") MultipartFile imagem) {
+    public ResponseEntity<String> cadastrarOcorrencia(
+            @RequestParam(value = "idUser", required = false) Integer idUser,
+            @RequestParam(value = "idCategoria", required = false) Integer idCategoria,
+            @RequestParam(value = "descricao", required = true) String descricao,
+            @RequestParam(value = "lat", required = true) String lat,
+            @RequestParam(value = "lon", required = true) String lon,
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "cpf", required = false) String cpf,
+            @RequestParam(value = "telefone", required = false) String telefone,
+            @RequestParam(value = "imagem", required = false) MultipartFile imagem) {
+
+        // Criando a instância da ocorrência e configurando os dados
+        Ocorrencia oc = new Ocorrencia();
+        oc.setIdUser(idUser);
+        oc.setIdCategoria(idCategoria);
+        oc.setDescricao(descricao);
+        oc.setLat(lat);
+        oc.setLon(lon);
+        oc.setNome(nome);
+        oc.setEmail(email);
+        oc.setCpf(cpf);
+        oc.setTelefone(telefone);
         try {
             ocServ.cadastrarOcorrencia(oc, imagem);
             return new ResponseEntity<>("Ocorrência cadastrada com sucesso!", HttpStatus.CREATED);
