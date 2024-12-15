@@ -45,9 +45,7 @@ public class OcorrenciaService {
             oc.setEmail(null);
 
             try {
-                if(UploadUtil.uploadImagem(imagem)){
-                    oc.setImagem(imagem.getOriginalFilename());
-                }
+                oc.setImagem(UploadUtil.uploadImagem(imagem));
             } catch (Exception e) {
                 throw new OcorrenciaException("Erro ao fazer upload de imagem.");
             }
@@ -61,9 +59,7 @@ public class OcorrenciaService {
                         "Nome, CPF, Telefone ou Email não podem estar vazios para usuários não associados.");
             }
             try {
-                if(UploadUtil.uploadImagem(imagem)){
-                    oc.setImagem(imagem.getOriginalFilename());
-                }
+                oc.setImagem(UploadUtil.uploadImagem(imagem));
             } catch (Exception e) {
                 throw new OcorrenciaException("Erro ao fazer upload de imagem.");
             }

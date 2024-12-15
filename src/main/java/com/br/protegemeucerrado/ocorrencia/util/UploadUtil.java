@@ -10,15 +10,14 @@ import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 
 public class UploadUtil {
     
-    public static Boolean uploadImagem(MultipartFile imagem){
-
-        boolean success = false;
+    public static String uploadImagem(MultipartFile imagem){
 
         if(!imagem.isEmpty()){
 
             String nomeArquivo = imagem.getOriginalFilename();
             try {
-                String pastaUpload = "";
+                String pastaUpload = "C:\\Users\\lucas\\Downloads";
+                String caminho = pastaUpload+imagem.getOriginalFilename();
                 File dir = new File(pastaUpload);
 
                 if(!dir.exists()){
@@ -34,7 +33,7 @@ public class UploadUtil {
                 stream.write(imagem.getBytes());
                 stream.close();
 
-                success = true;
+                return caminho;
 
             } catch (Exception e) {
                 System.out.println("Falha ao carregar o arquivo:" + nomeArquivo + " =>" + e.getMessage());
@@ -44,7 +43,7 @@ public class UploadUtil {
             System.out.println("Falha, arquivo vazio");
         }
 
-        return success;
+        return null;
 
     }
 
