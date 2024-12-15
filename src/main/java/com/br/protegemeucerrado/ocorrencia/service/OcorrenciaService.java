@@ -3,6 +3,7 @@ package com.br.protegemeucerrado.ocorrencia.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.br.protegemeucerrado.ocorrencia.DAO.CategoriaDAO;
 import com.br.protegemeucerrado.ocorrencia.DAO.OcorrenciaDAO;
@@ -11,6 +12,7 @@ import com.br.protegemeucerrado.ocorrencia.exception.OcorrenciaException;
 import com.br.protegemeucerrado.ocorrencia.model.Categoria;
 import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 import com.br.protegemeucerrado.ocorrencia.model.Status;
+import com.br.protegemeucerrado.ocorrencia.util.UploadUtil;
 
 @Service
 public class OcorrenciaService {
@@ -25,9 +27,17 @@ public class OcorrenciaService {
         this.staDao = staDao;
     }
 
-    public Boolean cadastrarOcorrencia(Ocorrencia oc) throws OcorrenciaException {
+    public Boolean cadastrarOcorrencia(Ocorrencia oc, MultipartFile imagem) throws OcorrenciaException {
 
         oc.setIdStatus(1);
+
+        try {
+            if(UploadUtil.uploadImagem(imagem)){
+                oc.setImagem(imagem.getOriginalFilename());
+            }
+        } catch (Exception e) {
+            throw new OcorrenciaException("Erro ao fazer upload de imagem.");
+        }
 
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");

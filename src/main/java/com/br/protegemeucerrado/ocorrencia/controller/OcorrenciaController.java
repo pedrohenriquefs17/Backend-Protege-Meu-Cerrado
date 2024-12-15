@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.br.protegemeucerrado.ocorrencia.exception.OcorrenciaException;
 import com.br.protegemeucerrado.ocorrencia.model.Categoria;
@@ -43,9 +45,9 @@ public class OcorrenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc) {
+    public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc, @RequestParam("file") MultipartFile imagem) {
         try {
-            ocServ.cadastrarOcorrencia(oc);
+            ocServ.cadastrarOcorrencia(oc, imagem);
             return new ResponseEntity<>("Ocorrência cadastrada com sucesso!", HttpStatus.CREATED);
         } catch (OcorrenciaException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
