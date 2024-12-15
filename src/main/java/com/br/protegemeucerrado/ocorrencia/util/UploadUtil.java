@@ -3,10 +3,9 @@ package com.br.protegemeucerrado.ocorrencia.util;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 
 public class UploadUtil {
     
@@ -14,7 +13,7 @@ public class UploadUtil {
 
         if(!imagem.isEmpty()){
 
-            String nomeArquivo = imagem.getOriginalFilename();
+            String nomeArquivo = UUID.randomUUID().toString() + imagem.getOriginalFilename();
             try {
                 String pastaUpload = "C:\\Users\\lucas\\Downloads";
                 String caminho = pastaUpload+imagem.getOriginalFilename();
