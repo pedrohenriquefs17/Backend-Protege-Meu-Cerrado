@@ -61,7 +61,7 @@ public class Ocorrencia {
 
     @Column(name = "lon", length = 150, nullable = true)
     private String lon;
-
+ 
     @Column(name = "imagem", length = 255, nullable = true)
     private String imagem;
 }
