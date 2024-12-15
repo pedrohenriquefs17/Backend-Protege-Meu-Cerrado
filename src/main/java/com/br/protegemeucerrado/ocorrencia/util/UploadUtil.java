@@ -16,7 +16,7 @@ public class UploadUtil {
 
         if(!imagem.isEmpty()){
 
-            String nomeArquivo = imagem.getOriginalFilename() + oc.getId();
+            String nomeArquivo = imagem.getOriginalFilename();
             try {
                 String pastaUpload = "";
                 File dir = new File(pastaUpload);
