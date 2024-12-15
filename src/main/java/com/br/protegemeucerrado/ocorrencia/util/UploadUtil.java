@@ -6,15 +6,17 @@ import java.io.FileOutputStream;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
+
 public class UploadUtil {
     
-    public static Boolean uploadImagem(MultipartFile imagem){
+    public static Boolean uploadImagem(MultipartFile imagem, Ocorrencia oc){
 
         boolean success = false;
 
         if(!imagem.isEmpty()){
-            
-            String nomeArquivo = imagem.getOriginalFilename();
+
+            String nomeArquivo = imagem.getOriginalFilename() + oc.getId();
             try {
                 String pastaUpload = "";
                 File dir = new File(pastaUpload);

@@ -32,7 +32,7 @@ public class OcorrenciaService {
         oc.setIdStatus(1);
 
         try {
-            if(UploadUtil.uploadImagem(imagem)){
+            if(UploadUtil.uploadImagem(imagem, oc)){
                 oc.setImagem(imagem.getOriginalFilename());
             }
         } catch (Exception e) {

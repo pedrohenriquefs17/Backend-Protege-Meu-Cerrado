@@ -72,7 +72,7 @@ public class OcorrenciaController {
             @RequestParam(value = "telefone", required = false) String telefone,
             @RequestParam(value = "imagem", required = false) MultipartFile imagem) {
 
-        // Criando a instância da ocorrência e configurando os dados
+        
         Ocorrencia oc = new Ocorrencia();
         oc.setIdUser(idUser);
         oc.setIdCategoria(idCategoria);
