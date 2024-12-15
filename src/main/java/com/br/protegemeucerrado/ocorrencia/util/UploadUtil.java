@@ -10,7 +10,7 @@ import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 
 public class UploadUtil {
     
-    public static Boolean uploadImagem(MultipartFile imagem, Ocorrencia oc){
+    public static Boolean uploadImagem(MultipartFile imagem){
 
         boolean success = false;
 

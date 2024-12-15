@@ -31,13 +31,7 @@ public class OcorrenciaService {
 
         oc.setIdStatus(1);
 
-        try {
-            if(UploadUtil.uploadImagem(imagem, oc)){
-                oc.setImagem(imagem.getOriginalFilename());
-            }
-        } catch (Exception e) {
-            throw new OcorrenciaException("Erro ao fazer upload de imagem.");
-        }
+        
 
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
@@ -49,6 +43,15 @@ public class OcorrenciaService {
             oc.setDtNasc(null);
             oc.setTelefone(null);
             oc.setEmail(null);
+
+            try {
+                if(UploadUtil.uploadImagem(imagem)){
+                    oc.setImagem(imagem.getOriginalFilename());
+                }
+            } catch (Exception e) {
+                throw new OcorrenciaException("Erro ao fazer upload de imagem.");
+            }
+
             ocDao.save(oc);
             return true;
         } else {
@@ -56,6 +59,13 @@ public class OcorrenciaService {
                     || oc.getEmail().isEmpty()) {
                 throw new OcorrenciaException(
                         "Nome, CPF, Telefone ou Email não podem estar vazios para usuários não associados.");
+            }
+            try {
+                if(UploadUtil.uploadImagem(imagem)){
+                    oc.setImagem(imagem.getOriginalFilename());
+                }
+            } catch (Exception e) {
+                throw new OcorrenciaException("Erro ao fazer upload de imagem.");
             }
             ocDao.save(oc);
             return true;
