@@ -35,6 +35,10 @@ public class OcorrenciaService {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
 
+        if (oc.getDtOcorrencia().equals(null)) {
+            throw new OcorrenciaException("Data inválida.");
+        }
+
         if (oc.getIdUser() != null) {
             oc.setNome(null);
             oc.setCpf(null);

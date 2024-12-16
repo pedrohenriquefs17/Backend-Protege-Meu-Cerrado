@@ -76,12 +76,12 @@ public class OcorrenciaController {
 
         try {
             if (dtNasc != null && !dtNasc.isEmpty()) {
-                Date dateNasc = sdf.parse(dtNasc); // Convertendo dtNasc
+                Date dateNasc = sdf.parse(dtNasc);
                 oc.setDtNasc(new java.sql.Date(dateNasc.getTime()));
             }
     
             if (dtOcorrencia != null && !dtOcorrencia.isEmpty()) {
-                Date dateOcorrencia = sdf.parse(dtOcorrencia); // Convertendo dtOcorrencia
+                Date dateOcorrencia = sdf.parse(dtOcorrencia);
                 oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
             }
     
