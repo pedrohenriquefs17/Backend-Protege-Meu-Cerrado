@@ -15,7 +15,7 @@ public class UploadUtil {
 
             String nomeArquivo = UUID.randomUUID().toString()+".png";
             try {
-                String pastaUpload = "C:\\Users\\lucas\\Downloads";
+                String pastaUpload = "C:\\Users\\lucas\\Downloads\\";
                 String caminho = pastaUpload+imagem.getOriginalFilename();
                 File dir = new File(pastaUpload);
 

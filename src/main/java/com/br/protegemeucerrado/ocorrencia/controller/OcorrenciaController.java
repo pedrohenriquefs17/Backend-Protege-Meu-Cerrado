@@ -1,5 +1,8 @@
 package com.br.protegemeucerrado.ocorrencia.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,21 +47,6 @@ public class OcorrenciaController {
         return ResponseEntity.status(200).body(ocServ.listarStatus());
     }
 
-    // @PostMapping
-    // public ResponseEntity<String> cadastrarOcorrencia(@RequestBody Ocorrencia oc,
-    // @RequestParam("imagem") MultipartFile imagem) {
-    // try {
-    // ocServ.cadastrarOcorrencia(oc, imagem);
-    // return new ResponseEntity<>("Ocorrência cadastrada com sucesso!",
-    // HttpStatus.CREATED);
-    // } catch (OcorrenciaException e) {
-    // return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>("Erro inesperado: " + e.getMessage(),
-    // HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
     @PostMapping
     public ResponseEntity<String> cadastrarOcorrencia(
             @RequestParam(value = "idUser", required = false) Integer idUser,
@@ -68,11 +56,13 @@ public class OcorrenciaController {
             @RequestParam(value = "lon", required = true) String lon,
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "dtNasc", required = false) String dtNasc,
+            @RequestParam(value = "dtOcorrencia", required = false) String dtOcorrencia,
             @RequestParam(value = "cpf", required = false) String cpf,
             @RequestParam(value = "telefone", required = false) String telefone,
-            @RequestParam(value = "imagem", required = false) MultipartFile imagem) {
+            @RequestParam(value = "imagem", required = true) MultipartFile imagem) {
 
-        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Defina o formato desejado
         Ocorrencia oc = new Ocorrencia();
         oc.setIdUser(idUser);
         oc.setIdCategoria(idCategoria);
@@ -83,6 +73,22 @@ public class OcorrenciaController {
         oc.setEmail(email);
         oc.setCpf(cpf);
         oc.setTelefone(telefone);
+
+        try {
+            if (dtNasc != null && !dtNasc.isEmpty()) {
+                Date dateNasc = sdf.parse(dtNasc); // Convertendo dtNasc
+                oc.setDtNasc(new java.sql.Date(dateNasc.getTime()));
+            }
+    
+            if (dtOcorrencia != null && !dtOcorrencia.isEmpty()) {
+                Date dateOcorrencia = sdf.parse(dtOcorrencia); // Convertendo dtOcorrencia
+                oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
+            }
+    
+        } catch (ParseException e) {
+            return new ResponseEntity<>("Erro ao converter data: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
         try {
             ocServ.cadastrarOcorrencia(oc, imagem);
             return new ResponseEntity<>("Ocorrência cadastrada com sucesso!", HttpStatus.CREATED);

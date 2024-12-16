@@ -31,8 +31,6 @@ public class OcorrenciaService {
 
         oc.setIdStatus(1);
 
-        
-
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
