@@ -13,7 +13,7 @@ public class UploadUtil {
 
         if(!imagem.isEmpty()){
 
-            String nomeArquivo = UUID.randomUUID().toString();
+            String nomeArquivo = UUID.randomUUID().toString()+".png";
             try {
                 String pastaUpload = "C:\\Users\\lucas\\Downloads";
                 String caminho = pastaUpload+imagem.getOriginalFilename();
@@ -22,8 +22,6 @@ public class UploadUtil {
                 if(!dir.exists()){
                     dir.mkdirs();
                 }
-
-                //criando arquivo no diretório
 
                 File serverFile = new File(dir.getAbsolutePath() + File.separator + nomeArquivo);
                 
