@@ -19,6 +19,6 @@ public class Status {
     private Integer id;
 
     @Column(name = "nome_status", length = 150, nullable = true) 
-    private String nome_status;
+    private String nomeStatus;
 
 }

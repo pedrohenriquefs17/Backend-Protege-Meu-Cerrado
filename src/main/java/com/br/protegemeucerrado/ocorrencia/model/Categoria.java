@@ -19,6 +19,6 @@ public class Categoria {
     private Integer id;
 
     @Column(name = "nome_categoria", length = 150, nullable = true) 
-    private String nome_categoria;
+    private String nomeCategoria;
 
 }
