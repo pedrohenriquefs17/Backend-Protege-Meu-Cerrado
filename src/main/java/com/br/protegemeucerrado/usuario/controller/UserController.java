@@ -86,12 +86,17 @@ public class UserController {
     }
 
     @GetMapping("/listar/usuario") // lista usuario atual
-    public ModelUser listarUsuarioAtual(@RequestParam("usuario") String id) {
+    public ResponseEntity<?> listarUsuarioAtual(@RequestParam("usuario") String id) {
         Long IDD = Long.valueOf(id);
-        ModelUser user = userRepository.findById(IDD)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-        user.setSenha("");
-        return user;
+
+        if (userRepository.findById(IDD).isPresent()) {
+            ModelUser user = userRepository.findById(IDD)
+                    .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+            user.setSenha("");
+            return ResponseEntity.status(200).body(user);
+        } else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não encontrado");
+
     }
 
     @PutMapping("/atualizar/usuario/{id}")
@@ -137,5 +142,4 @@ public class UserController {
     public int quantidadeUsuario() {
         return userRepository.countUsers();
     }
-
 }
