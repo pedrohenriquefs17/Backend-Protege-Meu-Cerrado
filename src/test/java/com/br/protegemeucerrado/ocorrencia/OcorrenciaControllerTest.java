@@ -1,5 +1,6 @@
 package com.br.protegemeucerrado.ocorrencia;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,7 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(OcorrenciaController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest
 public class OcorrenciaControllerTest {
 
         @Autowired
@@ -110,7 +110,7 @@ public class OcorrenciaControllerTest {
         @Test
         @WithMockUser
         public void testExcluirOcorrencia() throws Exception {
-                doNothing().when(ocServ).excluirOcorrencia(1);
+                when(ocServ.excluirOcorrencia(1)).thenReturn(true);
 
                 mockMvc.perform(delete("/ocorrencias/1"))
                                 .andExpect(status().isCreated())
@@ -128,4 +128,26 @@ public class OcorrenciaControllerTest {
                                                 + "\", \"localizacao\": \"Test Location\", \"categoria\": \"Test Category\", \"anonimo\": false}"))
                                 .andExpect(status().isBadRequest());
         }
+
+        // Só devem ser aceitas imagens no formato JPG, JPEG, PNG, WEBP
+        @Test
+        @WithMockUser
+        public void testImagemAceita() throws Exception {
+                String[] formatosAceitos = {"test.jpg", "test.jpeg", "test.png", "test.webp"};
+                for (String formato : formatosAceitos) {
+                        mockMvc.perform(post("/ocorrencias")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content("{\"descricao\": \"Test Description\", \"localizacao\": \"Test Location\", \"categoria\": \"Test Category\", \"anonimo\": false, \"imagem\": \"" + formato + "\"}"))
+                                        .andExpect(status().isCreated());
+                }
+
+                String[] formatosNaoAceitos = {"test.gif", "test.bmp"};
+                for (String formato : formatosNaoAceitos) {
+                        mockMvc.perform(post("/ocorrencias")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content("{\"descricao\": \"Test Description\", \"localizacao\": \"Test Location\", \"categoria\": \"Test Category\", \"anonimo\": false, \"imagem\": \"" + formato + "\"}"))
+                                        .andExpect(status().isBadRequest());
+                }
+        }
+        
 }
