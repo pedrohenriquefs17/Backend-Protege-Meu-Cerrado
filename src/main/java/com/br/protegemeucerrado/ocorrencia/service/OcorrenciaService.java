@@ -1,5 +1,7 @@
 package com.br.protegemeucerrado.ocorrencia.service;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,24 +32,20 @@ public class OcorrenciaService {
 
     public Boolean cadastrarOcorrencia(Ocorrencia oc, MultipartFile imagem) throws OcorrenciaException {
         oc.setIdStatus(1);
-
-        //TESTA SE FOI ENVIADA UMA DESCRIÇÃO
+        oc.setDtOcorrencia(LocalDate.now());
+        // TESTA SE FOI ENVIADA UMA DESCRIÇÃO, LATITUDE E LONGITUDE
         if (oc.getDescricao().isEmpty() || oc.getLat().isEmpty() || oc.getLon().isEmpty()) {
             throw new OcorrenciaException("Descrição, Latitude ou Longitude não podem estar vazios.");
         }
-        //TESTA SE A DATA É NULL OU ANTES DA ATUAL
-        LocalDate dataAtual = LocalDate.now();
-        if (oc.getDtOcorrencia().equals(null) || oc.getDtOcorrencia().toLocalDate().isBefore(dataAtual)) {
-            throw new OcorrenciaException("Data inválida.");
-        }
-        //CASO A OCORRENCIA SEJA FEITA POR UM USER LOGADO, IGNORAR OS DEMAIS DADOS
+
+        // CASO A OCORRENCIA SEJA FEITA POR UM USER LOGADO, IGNORAR OS DEMAIS DADOS
         if (oc.getIdUser() != null) {
             oc.setNome(null);
             oc.setCpf(null);
             oc.setDtNasc(null);
             oc.setTelefone(null);
             oc.setEmail(null);
-            //SALVANDO FOTO
+            // SALVANDO FOTO
             try {
                 oc.setImagem(UploadUtil.uploadImagem(imagem));
             } catch (Exception e) {
@@ -56,13 +54,13 @@ public class OcorrenciaService {
             ocDao.save(oc);
             return true;
         } else {
-            //TESTE SE OS DADOS NÃO ESTÃO VAZIOS
+            // TESTE SE OS DADOS NÃO ESTÃO VAZIOS
             if (oc.getNome().isEmpty() || oc.getCpf().isEmpty() || oc.getTelefone().isEmpty()
                     || oc.getEmail().isEmpty()) {
                 throw new OcorrenciaException(
                         "Nome, CPF, Telefone ou Email não podem estar vazios para usuários não associados.");
             }
-            //SALVANDO FOTO
+            // SALVANDO FOTO
             try {
                 oc.setImagem(UploadUtil.uploadImagem(imagem));
             } catch (Exception e) {
@@ -107,22 +105,22 @@ public class OcorrenciaService {
         ocDao.deleteById(id);
         return false;
     }
- 
+
     public List<Ocorrencia> listarOcUser(Integer id) {
         List<Ocorrencia> oc = (List<Ocorrencia>) ocDao.findByIdUser(id);
         return oc;
     }
-    
+
     public Integer listarQtdeStatus(Integer id) {
         Integer oc = ocDao.countByIdStatus(id);
         return oc;
     }
-    
+
     public List<Ocorrencia> listarOcorrencias() {
         List<Ocorrencia> oc = ocDao.findAll();
         return oc;
     }
-    
+
     public List<Categoria> listarCategorias() {
         List<Categoria> catOc = catDao.findAll();
         return catOc;
@@ -134,4 +132,3 @@ public class OcorrenciaService {
     }
 
 }
-

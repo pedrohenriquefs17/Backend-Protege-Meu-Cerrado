@@ -80,10 +80,10 @@ public class OcorrenciaController {
                 oc.setDtNasc(new java.sql.Date(dateNasc.getTime()));
             }
     
-            if (dtOcorrencia != null && !dtOcorrencia.isEmpty()) {
-                Date dateOcorrencia = sdf.parse(dtOcorrencia);
-                oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
-            }
+            // if (dtOcorrencia != null && !dtOcorrencia.isEmpty()) {
+            //     Date dateOcorrencia = sdf.parse(dtOcorrencia);
+            //     oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
+            // }
     
         } catch (ParseException e) {
             return new ResponseEntity<>("Erro ao converter data: " + e.getMessage(), HttpStatus.BAD_REQUEST);

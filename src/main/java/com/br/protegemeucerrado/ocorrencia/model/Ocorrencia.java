@@ -1,6 +1,7 @@
 package com.br.protegemeucerrado.ocorrencia.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,7 +55,7 @@ public class Ocorrencia {
     private Boolean isAnon = false;
 
     @Column(name = "dt_ocorrencia", columnDefinition = "DATE", nullable = true)
-    private Date dtOcorrencia;
+    private LocalDate dtOcorrencia;
 
     @Column(name = "lat", length = 150, nullable = true)
     private String lat;
