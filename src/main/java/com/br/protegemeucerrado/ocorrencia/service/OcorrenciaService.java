@@ -1,7 +1,5 @@
 package com.br.protegemeucerrado.ocorrencia.service;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
