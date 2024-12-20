@@ -1,0 +1,46 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Fazer o checkout do código
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Configurar Java 21
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # 3. Construir o .jar com Maven
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      # 4. Configurar SSH para conectar ao servidor
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 5. Copiar o .jar para o servidor
+      - name: Copy .jar to server
+        run: |
+          scp target/*.jar lucas@web.protegemeucerrado.com.br:/home/lucas/backend/app/protegemeucerrado.jar
+
+      # 6. Atualizar o container no servidor
+      - name: Deploy application
+        run: |
+          ssh lucas@web.protegemeucerrado.com.br << 'EOF'
+          cd /home/lucas/backend/app
+          docker-compose down
+          docker-compose up --build -d
+          EOF
