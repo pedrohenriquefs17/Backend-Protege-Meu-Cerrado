@@ -39,7 +39,7 @@ jobs:
       # 5. Copiar o .jar para o servidor
       - name: Copy .jar to server
         run: |
-          scp target/*.jar lucas@web.protegemeucerrado.com.br:/home/lucas/backend/app/protegemeucerrado.jar
+          scp -P 2222 target/*.jar lucas@web.protegemeucerrado.com.br:/home/lucas/backend/app/protegemeucerrado.jar
 
       # 6. Atualizar o container no servidor
       - name: Deploy application
