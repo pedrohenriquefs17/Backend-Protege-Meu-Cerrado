@@ -2,6 +2,7 @@ package com.br.protegemeucerrado.ocorrencia.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -79,12 +80,12 @@ public class OcorrenciaController {
                 Date dateNasc = sdf.parse(dtNasc);
                 oc.setDtNasc(new java.sql.Date(dateNasc.getTime()));
             }
-    
+
             // if (dtOcorrencia != null && !dtOcorrencia.isEmpty()) {
-            //     Date dateOcorrencia = sdf.parse(dtOcorrencia);
-            //     oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
+            // Date dateOcorrencia = sdf.parse(dtOcorrencia);
+            // oc.setDtOcorrencia(new java.sql.Date(dateOcorrencia.getTime()));
             // }
-    
+
         } catch (ParseException e) {
             return new ResponseEntity<>("Erro ao converter data: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -123,13 +124,28 @@ public class OcorrenciaController {
         }
     }
 
-    @GetMapping("/usuario/{id}")
-    public ResponseEntity<List<Ocorrencia>> listarOcUser(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(ocServ.listarOcUser(id));
+    @GetMapping("/listarPorUsuario")
+    public ResponseEntity<List<Ocorrencia>> listarOcUser(@RequestParam("idUsuario") Integer idUsuario) {
+        return ResponseEntity.status(200).body(ocServ.listarOcUser(idUsuario));
     }
 
-    @GetMapping("/listastatus/{id}")
-    public ResponseEntity<Integer> listarQtdeStatus(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(ocServ.listarQtdeStatus(id));
+    @GetMapping("/qtdeStatus")
+    public ResponseEntity<Integer> listarQtdeStatus(@RequestParam("idStatus") Integer idStatus) {
+        return ResponseEntity.status(200).body(ocServ.listarQtdeStatus(idStatus));
+    }
+
+    @GetMapping("/listarPorStatus")
+    public ResponseEntity<List<Ocorrencia>> listarPorStatus(@RequestParam("idStatus") Integer idStatus) {
+        return ResponseEntity.status(200).body(ocServ.listarPorStatus(idStatus));
+    }
+
+    @GetMapping("/listarPorCategoria")
+    public ResponseEntity<List<Ocorrencia>> listarPorCategoria(@RequestParam("idCategoria") Integer idCategoria) {
+        return ResponseEntity.status(200).body(ocServ.listarPorCategoria(idCategoria));
+    }
+
+    @GetMapping("/listarPorStatuseCategoria")
+    public ResponseEntity<List<Ocorrencia>> listarPorStatuseCategoria(@RequestParam("idStatus") Integer idStatus, @RequestParam("idCategoria") Integer idCategoria) {
+        return ResponseEntity.status(200).body(ocServ.listarPorStatuseCategoria(idStatus, idCategoria));
     }
 }

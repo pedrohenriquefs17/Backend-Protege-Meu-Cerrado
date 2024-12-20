@@ -11,6 +11,8 @@ import com.br.protegemeucerrado.ocorrencia.model.Ocorrencia;
 public interface OcorrenciaDAO extends JpaRepository<Ocorrencia, Integer> {
 
     List<Ocorrencia> findByIdUser(Integer idUser);
-
     Integer countByIdStatus(Integer idStatus);
+    List<Ocorrencia> findByIdStatus(Integer idStatus);
+    List<Ocorrencia> findByIdCategoria(Integer idCategoria);
+    List<Ocorrencia> findByidStatusAndIdCategoria(Integer idStatus, Integer idCategoria);
 }

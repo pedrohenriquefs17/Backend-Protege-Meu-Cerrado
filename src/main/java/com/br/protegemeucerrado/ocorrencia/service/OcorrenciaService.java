@@ -114,6 +114,21 @@ public class OcorrenciaService {
         return oc;
     }
 
+    public List<Ocorrencia> listarPorStatus(Integer id) {
+        List<Ocorrencia> oc = ocDao.findByIdStatus(id);
+        return oc;
+    }
+
+    public List<Ocorrencia> listarPorCategoria(Integer id) {
+        List<Ocorrencia> oc = ocDao.findByIdCategoria(id);
+        return oc;
+    }
+
+    public List<Ocorrencia> listarPorStatuseCategoria(Integer idStatus, Integer idCategoria) {
+        List<Ocorrencia> oc = ocDao.findByidStatusAndIdCategoria(idStatus, idCategoria);
+        return oc;
+    }
+
     public List<Ocorrencia> listarOcorrencias() {
         List<Ocorrencia> oc = ocDao.findAll();
         return oc;
