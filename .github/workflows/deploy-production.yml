@@ -31,6 +31,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # #4.1. verficar jar
+      - name: Verify JAR File
+        run: |
+          ls -l target/*.jar || echo "JAR file not found!"
+          
       # 5. Copiar o .jar para o servidor
       - name: Copy .jar to server
         run: |
